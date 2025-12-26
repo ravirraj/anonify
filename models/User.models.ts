@@ -19,6 +19,7 @@ export interface User extends Document {
   createdAt: Date;
   verifyCode: string;
   verifyCodeExpiry: Date;
+  isVerified: boolean;
   isAcceptingMessage: boolean;
   messages: Message[];
 }
@@ -54,6 +55,10 @@ const userSchema: Schema<User> = new Schema({
     type: Boolean,
     default: true,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   messages: [messageSchema],
 });
 
@@ -61,4 +66,4 @@ const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>("User", userSchema);
 
-export default UserModel
+export default UserModel;
