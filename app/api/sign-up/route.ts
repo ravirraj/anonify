@@ -8,9 +8,12 @@ export async function POST(request: Request) {
 
   try {
     const { username, email, password } = await request.json();
+    // console.log(username,email,password)
 
-    const existingUser = await UserModel.findOne({ username, isVerfied: true });
-
+    const existingUser = await UserModel.findOne({
+      username,
+      isVerified: true,
+    });
     if (existingUser) {
       return Response.json(
         { success: false, message: "User already exists " },
@@ -40,7 +43,6 @@ export async function POST(request: Request) {
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
-
       const newUser = new UserModel({
         username,
         email,
@@ -54,29 +56,30 @@ export async function POST(request: Request) {
 
       await newUser.save();
     }
-
+    //todo : hold this for now
     const emailReponse = await sendVerificationEmails(
       email,
       username,
       verifyCode
     );
-
+console.log(emailReponse)
     if (!emailReponse.success) {
       return Response.json(
         { success: false, message: emailReponse.message },
         { status: 500 }
       );
     }
-
+    console.log("this is existing user", existingUser);
+    console.log();
     return Response.json(
       {
-        success: false,
-        message: "User registerd successfully please verify email ",
+        success: true,
+        message: "User registered successfully please verify email ",
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("error registring User", error);
+    console.error("error registering User", error);
     return Response.json(
       {
         message: "Error registing user",
