@@ -12,12 +12,11 @@ export async function sendVerificationEmails(
       from: "Acme <onboarding@resend.dev>",
       to: email,
       subject: "Verification Code",
-      react: VerificationEmailTemplate({username,verificationCode}),
+      react: VerificationEmailTemplate({ username, verificationCode }),
     });
-    if(res.error){
+    if (res.error) {
       return { success: false, message: "Failed to send verification email" };
     }
-    console.log(res)
     return { success: true, message: " verification email sent successfully" };
   } catch (emailError) {
     console.log("Error sending verification email ", emailError);
