@@ -1,12 +1,12 @@
 //coded with ai so certain parts may be incorrect check once before using
 
-
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
 import { dbConnect } from "@/lib/dbConnect";
 import UserModel from "@/models/User.models";
 import { messageSchema } from "@/schemas/messageScheam";
 import { z } from "zod";
+
 export async function POST(request: Request) {
   dbConnect();
   const session = await getServerSession(authOptions);
@@ -19,10 +19,8 @@ export async function POST(request: Request) {
   const userId = session.user._id;
   try {
     const { message } = await request.json();
-    const validMessage = z.object({
-        content: messageSchema,
-    })
-    const parsedMessage = validMessage.safeParse(message);
+
+    const parsedMessage = messageSchema.safeParse(message);
     if (!parsedMessage.success) {
       return Response.json(
         { success: false, message: "Invalid message format" },
@@ -36,7 +34,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-    user.messages.push(message);
+    user.messages.push();
     await user.save();
     return Response.json(
       { success: true, message: "Message submitted successfully" },
