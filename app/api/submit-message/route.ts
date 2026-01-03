@@ -5,8 +5,6 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { dbConnect } from "@/lib/dbConnect";
 import UserModel from "@/models/User.models";
 import { messageSchema } from "@/schemas/messageScheam";
-import { z } from "zod";
-
 export async function POST(request: Request) {
   dbConnect();
   const session = await getServerSession(authOptions);
