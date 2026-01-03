@@ -2,7 +2,6 @@ import UserModel from "@/models/User.models";
 import { dbConnect } from "@/lib/dbConnect";
 import { z } from "zod";
 import { verifySchema } from "@/schemas/verifySchema";
-import { ca } from "zod/locales";
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -10,8 +9,8 @@ export async function POST(request: Request) {
   try {
     const { username, code } = await request.json();
     const decodedUsername = decodeURIComponent(username);
-
     const user = await UserModel.findOne({ username: decodedUsername });
+    console.log(user);
     if (!user) {
       return Response.json(
         { success: false, message: "User not found" },

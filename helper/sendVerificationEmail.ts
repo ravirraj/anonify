@@ -1,6 +1,7 @@
 import { resend } from "@/lib/resend";
 import { VerificationEmailTemplate } from "@/emails/verficationEmail";
 import { ApiResponse } from "@/types/ApiResponse";
+import { error } from "console";
 
 export async function sendVerificationEmails(
   email: string,
@@ -15,6 +16,7 @@ export async function sendVerificationEmails(
       react: VerificationEmailTemplate({ username, verificationCode }),
     });
     if (res.error) {
+      console.log(res.error)
       return { success: false, message: "Failed to send verification email" };
     }
     return { success: true, message: " verification email sent successfully" };
