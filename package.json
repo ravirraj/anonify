@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@openrouter/ai-sdk-provider": "^1.5.4",
     "@react-email/components": "^1.0.3",
     "bcryptjs": "^3.0.3",
     "mongoose": "^9.0.2",
